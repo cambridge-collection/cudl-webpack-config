@@ -1,5 +1,5 @@
-import identity from 'lodash/utility/identity';
-import isArray from 'lodash/lang/isArray';
+import identity from 'lodash/identity';
+import isArray from 'lodash/isArray';
 
 import WebpackConfig from 'webpack-config';
 

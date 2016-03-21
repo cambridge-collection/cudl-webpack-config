@@ -1,6 +1,6 @@
 import util from 'util';
 
-import isString from 'lodash/lang/isString';
+import isString from 'lodash/isString';
 
 
 const moduleTemplates = [
