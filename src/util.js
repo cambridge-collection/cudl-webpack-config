@@ -42,5 +42,5 @@ export function loader(defaultLoader, customiser = identity) {
  * Lookup a value from WebpackConfig.environment.
  */
 export function env(key) {
-    return WebpackConfig.environment.value(key);
+    return WebpackConfig.environment.get(key);
 }
