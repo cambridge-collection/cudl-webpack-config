@@ -1,6 +1,5 @@
 import identity from 'lodash/identity';
 import isArray from 'lodash/isArray';
-
 import WebpackConfig from 'webpack-config';
 
 /**

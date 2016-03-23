@@ -2,6 +2,8 @@ import util from 'util';
 
 import isString from 'lodash/isString';
 
+import { getDefault } from './es6modules';
+
 
 const moduleTemplates = [
     '%s-webpack-shim',
@@ -23,7 +25,7 @@ function resolveShim(name, templates) {
 
 export function shim(shim, shimOptions) {
     if(isString(shim)) {
-        shim = require(resolveShim(shim, moduleTemplates));
+        shim = getDefault(require(resolveShim(shim, moduleTemplates)));
     }
 
     return shim(shimOptions);
