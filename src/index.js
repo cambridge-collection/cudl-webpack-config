@@ -23,10 +23,10 @@ function resolveShim(name, templates) {
     throw new Error(`Cannot find shim: ${JSON.stringify(name)}`)
 }
 
-export function shim(shim, shimOptions) {
+export function shim(shim, ...shimOptions) {
     if(isString(shim)) {
         shim = getDefault(require(resolveShim(shim, moduleTemplates)));
     }
 
-    return shim(shimOptions);
+    return shim(...shimOptions);
 }
