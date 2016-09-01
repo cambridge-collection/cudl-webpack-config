@@ -44,7 +44,7 @@ Object.defineProperty(window, 'OpenSeadragon', {
 `,
                 after: `\
 // Clean up our intercepting property
-'delete window.OpenSeadragon;'
+delete window.OpenSeadragon;
 `
             }
         }
