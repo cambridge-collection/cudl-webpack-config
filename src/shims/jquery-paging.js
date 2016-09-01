@@ -1,10 +1,10 @@
-import WebpackConfig from 'webpack-config';
+import { Config } from 'webpack-config';
 
 import { loader } from '../util';
 
 
 export default function() {
-    return new WebpackConfig().merge({
+    return new Config().merge({
         resolve: {
             alias: {
                 // Alias the main file as "paging" is unclear and typing

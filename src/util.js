@@ -1,16 +1,16 @@
 import identity from 'lodash/identity';
 import isArray from 'lodash/isArray';
 
-import WebpackConfig from 'webpack-config';
+import { Config, environment } from 'webpack-config';
 
 /**
- * Return a function which creates a WebpackConfig with the specified array of
+ * Return a function which creates a Config with the specified array of
  * loaders when called.
  *
  * If a customiser function is provided, it's invoked when returned function is
  * invoked, with the defautLoaders array as the first argument followed by any
  * args the returned function is invoked with. It should return an array of
- * loaders which will be used in the resulting WebpackConfig.
+ * loaders which will be used in the resulting Config.
  */
 export function loaders(defaultLoaders, customiser = identity) {
     return (...args) => {
@@ -20,7 +20,7 @@ export function loaders(defaultLoaders, customiser = identity) {
 
         let loaders = customiser(defaultLoaders, ...args);
 
-        return new WebpackConfig().merge({
+        return new Config().merge({
             module: {
                 loaders: loaders
             }
@@ -39,8 +39,8 @@ export function loader(defaultLoader, customiser = identity) {
 }
 
 /**
- * Lookup a value from WebpackConfig.environment.
+ * Lookup a value from the default webpack-config environment.
  */
 export function env(key) {
-    return WebpackConfig.environment.get(key);
+    return environment.get(key);
 }

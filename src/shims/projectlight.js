@@ -1,6 +1,6 @@
 import path from 'path';
 
-import WebpackConfig from 'webpack-config';
+import { Config } from 'webpack-config';
 import escapeRegex from 'escape-string-regexp';
 
 import { loader } from '../util';
@@ -18,7 +18,7 @@ export default function() {
     let modernizr = path.join(PL_LIB_DIR, 'modernizr.js');
     let iosFix = path.join(PL_LIB_DIR, 'ios-orientationchange-fix.js');
 
-    return new WebpackConfig().merge({
+    return new Config().merge({
         resolve: {
             alias: {
                 modernizr: modernizr,

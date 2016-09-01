@@ -1,4 +1,4 @@
-import WebpackConfig from 'webpack-config';
+import { Config } from 'webpack-config';
 
 import { loaders } from '../util';
 
@@ -8,7 +8,7 @@ export function shim_2_1_0() {
     // regular...
     let dirPattern = /\/node_modules\/OpenSeadragon\/src\//;
 
-    return new WebpackConfig().merge({
+    return new Config().merge({
         module: {
             loaders: [
                 {
@@ -56,7 +56,7 @@ export default function(version) {
         return shim_2_1_0();
     }
 
-    return new WebpackConfig().merge({
+    return new Config().merge({
         resolve: {
             alias: {
                 // Enough openseadragons?
