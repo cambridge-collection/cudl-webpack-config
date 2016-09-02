@@ -39,8 +39,19 @@ export function loader(defaultLoader, customiser = identity) {
 }
 
 /**
+ * If value is a function, return the result of executing it, otherwise return
+ * the value as is.
+ */
+function resolve(value) {
+    if(typeof value === 'function') {
+        return value.call();
+    }
+    return value;
+}
+
+/**
  * Lookup a value from the default webpack-config environment.
  */
-export function env(key) {
-    return environment.get(key);
+export function env(key, env=environment) {
+    return resolve(env.get(key));
 }
