@@ -1,11 +1,53 @@
 import { Config } from 'webpack-config';
+import { satisfies } from 'semver';
 
 import { loaders } from '../util';
 
-export function shim_2_1_0() {
-    // OpenSeadragon still has non-standard packaging which requires lots of
-    // hacking. They're about to do a release on NPM which should be more
-    // regular...
+const OSD_2_SHIM = {
+    before: `\
+// Redirect assignment of OpenSeadragon global to local var. This is required
+// as otherwise we can't assign the OpenSeadragon local before it's passed to
+// the main module wrapping function.
+var OpenSeadragon;
+Object.defineProperty(window, 'OpenSeadragon', {
+    get: function() { return OpenSeadragon; },
+    set: function(value) { OpenSeadragon = value; },
+    configurable: true,
+    enumerable: true
+});
+`,
+    after: `\
+// Clean up our intercepting property
+delete window.OpenSeadragon;
+`
+};
+
+
+function shim_2_2() {
+    return new Config().merge({
+        module: {
+            loaders: [
+                {
+                    include: require.resolve('openseadragon'),
+                    loaders: [
+                        // Disable AMD define used by OSD
+                        'imports?window=>global&define=>false',
+                        'exports?OpenSeadragon',
+                        'wrap?shim-openseadragon-2.x'
+                    ]
+                }
+            ]
+        },
+        wrap: {
+            'shim-openseadragon-2.x': OSD_2_SHIM
+        }
+    });
+}
+
+function shim_2_1() {
+    // OpenSeadragon < 2.2 had non-standard packaging which required lots of
+    // hacking. ^2.2 has an NPM release, but contains only a concatenated file
+    // as they don't use js modules internally yet.
     let dirPattern = /\/node_modules\/OpenSeadragon\/src\//;
 
     return new Config().merge({
@@ -23,37 +65,23 @@ export function shim_2_1_0() {
                     loaders: [
                         'imports?window=>global',
                         'exports?OpenSeadragon',
-                        'wrap?shim-openseadragon-2.1.0'
+                        'wrap?shim-openseadragon-2.x'
                     ]
                 }
             ]
         },
         wrap: {
-            'shim-openseadragon-2.1.0': {
-                before: `\
-// Redirect assignment of OpenSeadragon global to local var. This is required
-// as otherwise we can't assign the OpenSeadragon local before it's passed to
-// the main module wrapping function.
-var OpenSeadragon;
-Object.defineProperty(window, 'OpenSeadragon', {
-    get: function() { return OpenSeadragon; },
-    set: function(value) { OpenSeadragon = value; },
-    configurable: true,
-    enumerable: true
-});
-`,
-                after: `\
-// Clean up our intercepting property
-delete window.OpenSeadragon;
-`
-            }
+            'shim-openseadragon-2.x': OSD_2_SHIM
         }
     });
 }
 
 export default function(version) {
-    if(version ==='2.1.0') {
-        return shim_2_1_0();
+    if(satisfies(version, '^2.2')) {
+        return shim_2_2();
+    }
+    else if(satisfies(version, '^2')) {
+        return shim_2_1();
     }
 
     return new Config().merge({

@@ -7,6 +7,7 @@
   "dependencies": {
     "escape-string-regexp": "^1.0.3",
     "lodash": "^4",
+    "semver": "^5",
     "webpack-config": "^6"
   },
   "scripts": {
