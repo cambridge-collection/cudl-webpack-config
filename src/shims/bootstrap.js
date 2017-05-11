@@ -5,6 +5,6 @@ export default loader(
     {
         test: /\/\w+\.js$/,
         include: /\/node_modules\/bootstrap\/js\//,
-        loader: 'imports?jQuery=jquery'
+        loader: 'imports-loader?jQuery=jquery'
     }
 );
