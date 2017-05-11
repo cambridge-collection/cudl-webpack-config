@@ -38,7 +38,7 @@ export default function() {
                 // Shim modernizr as a commonjs module
                 {
                     test: bowerTestRegex(modernizr),
-                    loader: 'imports-loader?this=>global!exports?Modernizr'
+                    loader: 'imports-loader?this=>global!exports-loader?Modernizr'
                 },
                 // Shim the ios rotate fix script
                 {

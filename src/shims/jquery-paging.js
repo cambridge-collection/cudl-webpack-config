@@ -17,7 +17,7 @@ export default function() {
                 {
                     test: /\/jquery\.paging\.js$/,
                     include: /\/bower_components\/paging\//,
-                    loader: 'imports?jQuery=jquery,this=>global'
+                    loader: 'imports-loader?jQuery=jquery,this=>global'
                 }
             ]
         }

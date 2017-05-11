@@ -8,7 +8,7 @@ export default loader(
         // It would be tricky to shim ckeditor in such a way that
         // it wouldn't create a global on window as it relies on
         // various properties of window.
-        loader: 'exports?window.CKEDITOR'
+        loader: 'exports-loader?window.CKEDITOR'
     },
     (loader, options) => {
         options = options || {};
