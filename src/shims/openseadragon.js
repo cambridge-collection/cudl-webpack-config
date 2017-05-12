@@ -31,9 +31,9 @@ function shim_2_2() {
                     include: require.resolve('openseadragon'),
                     loaders: [
                         // Disable AMD define used by OSD
-                        'imports?window=>global&define=>false',
-                        'exports?OpenSeadragon',
-                        'wrap?shim-openseadragon-2.x'
+                        'imports-loader?window=>global&define=>false',
+                        'exports-loader?OpenSeadragon',
+                        'wrap-loader?shim-openseadragon-2.x'
                     ]
                 }
             ]
@@ -57,15 +57,15 @@ function shim_2_1() {
                     include: dirPattern,
                     test: /\/.*\.js$/,
                     exclude: /\/openseadragon\.js/,
-                    loader: 'imports?OpenSeadragon=./openseadragon.js'
+                    loader: 'imports-loader?OpenSeadragon=./openseadragon.js'
                 },
                 {
                     include: dirPattern,
                     test: /\/openseadragon\.js$/,
                     loaders: [
-                        'imports?window=>global',
-                        'exports?OpenSeadragon',
-                        'wrap?shim-openseadragon-2.x'
+                        'imports-loader?window=>global',
+                        'exports-loader?OpenSeadragon',
+                        'wrap-loader?shim-openseadragon-2.x'
                     ]
                 }
             ]
@@ -97,7 +97,7 @@ export default function(version) {
                 {
                     test: /\/openseadragon\.js$/,
                     include: /\/bower_components\/openseadragon\//,
-                    loader: 'exports?OpenSeadragon'
+                    loader: 'exports-loader?OpenSeadragon'
                 }
             ]
         }
