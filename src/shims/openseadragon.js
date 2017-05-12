@@ -1,7 +1,7 @@
 import { Config } from 'webpack-config';
 import { satisfies } from 'semver';
 
-import { loaders } from '../util';
+import { rules } from '../util';
 
 const OSD_2_SHIM = {
     before: `\
@@ -26,10 +26,10 @@ delete window.OpenSeadragon;
 function shim_2_2() {
     return new Config().merge({
         module: {
-            loaders: [
+            rules: [
                 {
                     include: require.resolve('openseadragon'),
-                    loaders: [
+                    use: [
                         // Disable AMD define used by OSD
                         'imports-loader?window=>global&define=>false',
                         'exports-loader?OpenSeadragon',
@@ -52,7 +52,7 @@ function shim_2_1() {
 
     return new Config().merge({
         module: {
-            loaders: [
+            rules: [
                 {
                     include: dirPattern,
                     test: /\/.*\.js$/,
@@ -62,7 +62,7 @@ function shim_2_1() {
                 {
                     include: dirPattern,
                     test: /\/openseadragon\.js$/,
-                    loaders: [
+                    use: [
                         'imports-loader?window=>global',
                         'exports-loader?OpenSeadragon',
                         'wrap-loader?shim-openseadragon-2.x'
@@ -93,7 +93,7 @@ export default function(version) {
             }
         },
         module: {
-            loaders: [
+            rules: [
                 {
                     test: /\/openseadragon\.js$/,
                     include: /\/bower_components\/openseadragon\//,

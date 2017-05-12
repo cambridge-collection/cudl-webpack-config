@@ -1,7 +1,7 @@
-import { loader } from '../util';
+import { rule } from '../util';
 
 
-export default loader(
+export default rule(
     {
         test: require.resolve('jquery.easing'),
         loader: 'imports-loader?jQuery=jquery'
