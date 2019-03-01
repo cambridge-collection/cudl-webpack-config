@@ -2,6 +2,7 @@ import { Config } from 'webpack-config';
 import { satisfies } from 'semver';
 
 import { rules } from '../util';
+import webpack from 'webpack';
 
 const OSD_2_SHIM = {
     before: `\
@@ -38,9 +39,14 @@ function shim_2_2() {
                 }
             ]
         },
-        wrap: {
-            'shim-openseadragon-2.x': OSD_2_SHIM
-        }
+        plugins: [
+            new webpack.LoaderOptionsPlugin({
+                // test: /\.xxx$/, // may apply this only for some modules
+                options: {
+                    wrap:{'shim-openseadragon-2.x': OSD_2_SHIM}
+                }
+            })
+        ]
     });
 }
 
@@ -70,9 +76,14 @@ function shim_2_1() {
                 }
             ]
         },
-        wrap: {
-            'shim-openseadragon-2.x': OSD_2_SHIM
-        }
+        plugins: [
+            new webpack.LoaderOptionsPlugin({
+                // test: /\.xxx$/, // may apply this only for some modules
+                options: {
+                    wrap:{'shim-openseadragon-2.x': OSD_2_SHIM}
+                }
+            })
+         ]
     });
 }
 
