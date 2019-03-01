@@ -11,8 +11,7 @@
     "lodash": "4.17.11",
     "semver": "5.6.0",
     "webpack-config": "7.5.0",
-    "wrap-loader": "0.2.0",
-    "webpack": "4.29.5"
+    "wrap-loader": "0.2.0"
   },
   "scripts": {
     "prepublish": "./node_modules/.bin/babel --source-maps=inline -d lib/ src/",
@@ -21,6 +20,7 @@
   "devDependencies": {
     "@babel/cli": "7.2.3",
     "@babel/core": "7.3.4",
-    "@babel/preset-env": "7.3.4"
+    "@babel/preset-env": "7.3.4",
+    "webpack": "4.29.5"
   }
 }
