@@ -5,36 +5,36 @@ import { Config, environment } from 'webpack-config';
 
 /**
  * Return a function which creates a Config with the specified array of
- * loaders when called.
+ * rules when called.
  *
  * If a customiser function is provided, it's invoked when returned function is
- * invoked, with the defautLoaders array as the first argument followed by any
+ * invoked, with the defaultRules array as the first argument followed by any
  * args the returned function is invoked with. It should return an array of
- * loaders which will be used in the resulting Config.
+ * rules which will be used in the resulting Config.
  */
-export function loaders(defaultLoaders, customiser = identity) {
+export function rules(defaultRules, customiser = identity) {
     return (...args) => {
-        if(!isArray(defaultLoaders))
+        if(!isArray(defaultRules))
             throw new Error(
-                `first argument must be an array, got: ${defaultLoaders}`);
+                `first argument must be an array, got: ${defaultRules}`);
 
-        let loaders = customiser(defaultLoaders, ...args);
+        let loaders = customiser(defaultRules, ...args);
 
         return new Config().merge({
             module: {
-                loaders: loaders
+                rules: loaders
             }
         });
     }
 }
 
 /**
- * As loaders(), except the function itself and the customiser take a single
- * loader, not an array of loaders.
+ * As rules(), except the function itself and the customiser take a single
+ * rule object, not an array of rules.
  */
-export function loader(defaultLoader, customiser = identity) {
-    return loaders([defaultLoader], ([defaultLoader], ...args) => {
-        return [customiser(defaultLoader, ...args)];
+export function rule(defaultRule, customiser = identity) {
+    return rules([defaultRule], ([defaultRule], ...args) => {
+        return [customiser(defaultRule, ...args)];
     })
 }
 

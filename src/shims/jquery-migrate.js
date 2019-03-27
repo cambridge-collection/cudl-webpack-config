@@ -1,9 +1,9 @@
-import { loader } from '../util';
+import { rule } from '../util';
 
 
-export default loader(
+export default rule(
     {
         test: require.resolve('jquery-migrate'),
-        loader: 'imports?jQuery=jquery,window=>global'
+        loader: 'imports-loader?jQuery=jquery,window=>global'
     }
 );

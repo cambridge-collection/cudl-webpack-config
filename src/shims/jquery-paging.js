@@ -1,6 +1,6 @@
 import { Config } from 'webpack-config';
 
-import { loader } from '../util';
+import { rule } from '../util';
 
 
 export default function() {
@@ -13,11 +13,11 @@ export default function() {
             }
         },
         module: {
-            loaders: [
+            rules: [
                 {
                     test: /\/jquery\.paging\.js$/,
                     include: /\/bower_components\/paging\//,
-                    loader: 'imports?jQuery=jquery,this=>global'
+                    loader: 'imports-loader?jQuery=jquery,this=>global'
                 }
             ]
         }

@@ -3,7 +3,7 @@ import path from 'path';
 import { Config } from 'webpack-config';
 import escapeRegex from 'escape-string-regexp';
 
-import { loader } from '../util';
+import { rule } from '../util';
 
 
 const PL_JS_DIR = 'project-light/javascripts';
@@ -26,11 +26,11 @@ export default function() {
             }
         },
         module: {
-            loaders: [
+            rules: [
                 // Shim the project light JS as a commonjs module
                 {
                     test: bowerTestRegex(projectLight),
-                    loader:'imports?'  + [
+                    loader:'imports-loader?'  + [
                         '__1=jquery-migrate',
                         '__2=ios-orientation-zoom-bug-fix'
                     ].join(',')
@@ -38,12 +38,15 @@ export default function() {
                 // Shim modernizr as a commonjs module
                 {
                     test: bowerTestRegex(modernizr),
-                    loader: 'imports?this=>global!exports?Modernizr'
+                    use: [
+                        'imports-loader?this=>global',
+                        'exports-loader?Modernizr'
+                    ]
                 },
                 // Shim the ios rotate fix script
                 {
                     test: bowerTestRegex(iosFix),
-                    loader: 'imports?this=>global'
+                    loader: 'imports-loader?this=>global'
                 }
             ]
         }

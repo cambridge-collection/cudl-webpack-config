@@ -1,10 +1,10 @@
-import { loader } from '../util';
+import { rule } from '../util';
 
 
-export default loader(
+export default rule(
     {
         test: /\/\w+\.js$/,
         include: /\/node_modules\/bootstrap\/js\//,
-        loader: 'imports?jQuery=jquery'
+        loader: 'imports-loader?jQuery=jquery'
     }
 );

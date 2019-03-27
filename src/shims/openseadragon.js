@@ -1,7 +1,8 @@
 import { Config } from 'webpack-config';
 import { satisfies } from 'semver';
 
-import { loaders } from '../util';
+import { rules } from '../util';
+import webpack from 'webpack';
 
 const OSD_2_SHIM = {
     before: `\
@@ -26,21 +27,26 @@ delete window.OpenSeadragon;
 function shim_2_2() {
     return new Config().merge({
         module: {
-            loaders: [
+            rules: [
                 {
                     include: require.resolve('openseadragon'),
-                    loaders: [
+                    use: [
                         // Disable AMD define used by OSD
-                        'imports?window=>global&define=>false',
-                        'exports?OpenSeadragon',
-                        'wrap?shim-openseadragon-2.x'
+                        'imports-loader?window=>global&define=>false',
+                        'exports-loader?OpenSeadragon',
+                        'wrap-loader?shim-openseadragon-2.x'
                     ]
                 }
             ]
         },
-        wrap: {
-            'shim-openseadragon-2.x': OSD_2_SHIM
-        }
+        plugins: [
+            new webpack.LoaderOptionsPlugin({
+                // test: /\.xxx$/, // may apply this only for some modules
+                options: {
+                    wrap:{'shim-openseadragon-2.x': OSD_2_SHIM}
+                }
+            })
+        ]
     });
 }
 
@@ -52,27 +58,32 @@ function shim_2_1() {
 
     return new Config().merge({
         module: {
-            loaders: [
+            rules: [
                 {
                     include: dirPattern,
                     test: /\/.*\.js$/,
                     exclude: /\/openseadragon\.js/,
-                    loader: 'imports?OpenSeadragon=./openseadragon.js'
+                    loader: 'imports-loader?OpenSeadragon=./openseadragon.js'
                 },
                 {
                     include: dirPattern,
                     test: /\/openseadragon\.js$/,
-                    loaders: [
-                        'imports?window=>global',
-                        'exports?OpenSeadragon',
-                        'wrap?shim-openseadragon-2.x'
+                    use: [
+                        'imports-loader?window=>global',
+                        'exports-loader?OpenSeadragon',
+                        'wrap-loader?shim-openseadragon-2.x'
                     ]
                 }
             ]
         },
-        wrap: {
-            'shim-openseadragon-2.x': OSD_2_SHIM
-        }
+        plugins: [
+            new webpack.LoaderOptionsPlugin({
+                // test: /\.xxx$/, // may apply this only for some modules
+                options: {
+                    wrap:{'shim-openseadragon-2.x': OSD_2_SHIM}
+                }
+            })
+         ]
     });
 }
 
@@ -93,11 +104,11 @@ export default function(version) {
             }
         },
         module: {
-            loaders: [
+            rules: [
                 {
                     test: /\/openseadragon\.js$/,
                     include: /\/bower_components\/openseadragon\//,
-                    loader: 'exports?OpenSeadragon'
+                    loader: 'exports-loader?OpenSeadragon'
                 }
             ]
         }
